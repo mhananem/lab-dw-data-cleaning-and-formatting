@@ -9,10 +9,8 @@ def clean_column_names(df):
     return df
 
 
-# Exercise 2 — Clean inconsistent values
 def clean_invalid_values(df):
 
-    # Gender
     df["gender"] = df["gender"].replace({
         "female": "F",
         "Femal": "F",
@@ -23,7 +21,6 @@ def clean_invalid_values(df):
         "M": "M"
     })
 
-    # State names
     state_mapping = {
         "AZ": "Arizona",
         "Cali": "California",
@@ -33,15 +30,12 @@ def clean_invalid_values(df):
 
     df["state"] = df["state"].replace(state_mapping)
 
-    # Education
     df["education"] = df["education"].replace({
         "Bachelors": "Bachelor"
     })
 
-    # Customer lifetime value
     df["customer_lifetime_value"] = df["customer_lifetime_value"].str.replace("%", "")
 
-    # Vehicle class
     df["vehicle_class"] = df["vehicle_class"].replace({
         "Sports Car": "Luxury",
         "Luxury SUV": "Luxury",
@@ -51,24 +45,20 @@ def clean_invalid_values(df):
     return df
 
 
-# Exercise 3 — Fix data types
 def format_data_types(df):
 
-    # Convert CLV to numeric
+   
     df["customer_lifetime_value"] = df["customer_lifetime_value"].astype(float)
 
-    # Extract middle value from complaints column
+
     df["number_of_open_complaints"] = (
-        df["number_of_open_complaints"]
-        .str.split("/")
-        .str[1]
-        .astype(float)
+        df["number_of_open_complaints"].str.split("/").str[1].astype(float)
     )
 
     return df
 
 
-# Exercise 4 — Handle null values
+
 def handle_null_values(df):
 
     drop_cols = [
@@ -84,13 +74,13 @@ def handle_null_values(df):
 
     df = df.dropna(subset=drop_cols)
 
-    # Forward fill gender
+
     df["gender"] = df["gender"].fillna(method="ffill")
 
     return df
 
 
-# Exercise 5 — Remove duplicates
+
 def remove_duplicates(df):
 
     df = df.drop_duplicates()
